@@ -2,7 +2,8 @@ import Modal from 'react-modal';
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
 import closeImg from '../../assets/close.svg';
-import { Container, TransactionTypeContainer } from './styles';
+import { Container, TransactionTypeContainer, RadioBox } from './styles';
+import { useState } from 'react';
 
 interface NewTransactionModalProps {
    isOpen: boolean;
@@ -10,6 +11,10 @@ interface NewTransactionModalProps {
 }
 
 export function NewTransactionModal({ isOpen,onRequestClose } : NewTransactionModalProps) {
+
+    //create state for type transaction for control button click
+    const [type, setType] = useState('deposit')
+
     return (
         <Modal isOpen={isOpen} 
                 onRequestClose={onRequestClose}
@@ -25,14 +30,26 @@ export function NewTransactionModal({ isOpen,onRequestClose } : NewTransactionMo
                 <input placeholder="Titulo" />
                 <input type="number" placeholder="Valor" />
                 <TransactionTypeContainer>
-                    <button type='button'>
-                        <img src={incomeImg} alt="Entrada" />
-                        <span>Entrada</span>
-                    </button>
-                    <button type='button'>
-                        <img src={outcomeImg} alt="Saida" />
-                        <span>Saida</span>
-                    </button>
+
+                    <RadioBox 
+                        type='button'
+                        onClick={() => {setType('deposit');}}
+                        isActive={type === 'deposit'}
+                        activeColor="green">
+                        
+                            <img src={incomeImg} alt="Entrada" />
+                            <span>Entrada</span>
+                    </RadioBox>
+
+                    <RadioBox 
+                        type='button'
+                        onClick={() => {setType('witdraw');}}
+                        isActive={type === 'witdraw'}
+                        activeColor="red">
+                            <img src={outcomeImg} alt="Saida" />
+                            <span>Saida</span>
+                    </RadioBox>
+
                 </TransactionTypeContainer>
                 <input placeholder="Categoria" />
                 <button type="submit">
